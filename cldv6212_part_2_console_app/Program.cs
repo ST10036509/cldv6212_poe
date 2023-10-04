@@ -17,6 +17,7 @@ namespace cldv6212_part_2_console_app
             //create queue manager
             var queueManager = new QueueManager(connectionString, queueName);
 
+
             //declare variables:
             string input = "";
             string message = "";

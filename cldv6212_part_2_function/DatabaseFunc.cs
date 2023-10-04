@@ -14,7 +14,10 @@ namespace cldv6212_part_2_function
         {
             log.LogInformation($"C# Queue trigger function processed: {message}");
 
-            string[] messageParts = message.Split('|');
+            VaccinationData vacData = VaccinationData.FromMessage(message);
+
+
         }
     }
 }
+//__________________________________...oooOOO000_End_Of_File_000OOOooo...__________________________________
