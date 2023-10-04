@@ -352,7 +352,6 @@ namespace cldv6212_part_2_console_app
 
         private static string ValidateIDNumber(string id)
         {
-
             //check if id is null and validate input as either a ID or Passport number
             if (id == "")
             {
@@ -390,6 +389,7 @@ namespace cldv6212_part_2_console_app
 
         private static string ValidateVaccinationDate(string date)
         {
+            //temptorary date holder for validation
             DateOnly tempDate;
 
             //check if input is null
@@ -527,7 +527,6 @@ namespace cldv6212_part_2_console_app
         //safely close application
         protected static void ExitApplication()
         {
-
             //clear console
             Clear();
             //output colorized message
