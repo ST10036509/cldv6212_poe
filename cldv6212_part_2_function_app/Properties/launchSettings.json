@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "cldv6212_part_2_function_app": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7044",
+      "launchBrowser": false
+    }
+  }
+}

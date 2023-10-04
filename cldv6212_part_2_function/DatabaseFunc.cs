@@ -5,8 +5,6 @@ using Microsoft.Extensions.Logging;
 
 namespace cldv6212_part_2_function
 {
-    //Data Source=LAPTOP-LMRG02CV;Initial Catalog=VaccinationData;Integrated Security=True
-
     public class DatabaseFunc
     {
         [FunctionName("ProcessQueueMessage")]
@@ -17,7 +15,7 @@ namespace cldv6212_part_2_function
             log.LogInformation($"C# Queue trigger function processed: {message}");
 
             //create Data Model of message
-            VaccinationDataModel vacData = VaccinationDataModel.FromMessage(message);
+            //VaccinationDataModel vacData = VaccinationDataModel.FromMessage(message);
         }
     }
 }
