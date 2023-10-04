@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace cldv6212_part_2_function
 {
-    public class VaccinationData
+    public class VaccinationDataModel
     {
 
         //getter amd setters
@@ -18,17 +18,27 @@ namespace cldv6212_part_2_function
         public string VaccinationBarcode { get; set; }
         //
 
-        public static VaccinationData FromMessage(string message)
+        //capture message and break it down into Data Model context based on format
+        //Formats:
+        //(1) Id:VaccinationCenter:VaccinationDate:VaccineSerialNumber
+        //(2) VaccineBarcode:VaccinationDate:VaccinationCenter:Id
+        public static VaccinationDataModel FromMessage(string message)
         {
-            string[] parts = message.Split('|');
+            //break string into data parts
+            string[] parts = message.Split(':');
 
-            var data = new VaccinationData();
+            //create a new Data Model instance
+            var data = new VaccinationDataModel();
 
+            //check format:
+            //if it is of Format (2)
             if (parts[0].Length == 10)
             {
+                //assign values to Data Model variables
                 data.Id = parts[0];
                 data.VaccinationCenter = parts[1];
 
+                //check if DateTime is valid (again)
                 if (DateTime.TryParse(parts[2], out DateTime date))
                 {
                     data.VaccincationDate = date;
@@ -36,10 +46,13 @@ namespace cldv6212_part_2_function
 
                 data.VaccinationSerialNumber = parts[3];
             }
+            //if it is Format (1)
             else
             {
+                data.Id = parts[0];
                 data.VaccinationBarcode = parts[0];
 
+                //check if DateTime is valid (again)
                 if (DateTime.TryParse(parts[1], out DateTime date))
                 {
                     data.VaccincationDate = date;

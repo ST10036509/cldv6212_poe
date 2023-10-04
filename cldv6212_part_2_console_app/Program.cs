@@ -34,7 +34,7 @@ namespace cldv6212_part_2_console_app
                 Coloration(ConsoleColor.Cyan, "Identification Number");
                 Coloration(ConsoleColor.DarkGray, " (either a valid SOUTH AFRICAN ID or SOUTH AFRICAN Passport Number)\n");
                 Coloration(ConsoleColor.DarkYellow, "(2) ");
-                Coloration(ConsoleColor.Cyan, "Vaccination Barcode");
+                Coloration(ConsoleColor.Cyan, "Vaccine Barcode");
                 Coloration(ConsoleColor.DarkGray, "\n\n\n(Enter The Number Corresponding With Your Choice OR Type 'Exit' To Close The Application)");
                 Coloration(ConsoleColor.DarkYellow, "\n>> ");
 
@@ -69,53 +69,89 @@ namespace cldv6212_part_2_console_app
             //id number picked
             if (input == "1")
             {
-                //validate id number loop:
-                input = ValidateIDNumberLoop();
-                //add id to message
-                message += input;
+                flag = true;
 
-                //validate vaccination center loop:
-                input = ValidateVaccinationCenterLoop();
-                //add vaccination center to message
-                message += "|" + input;
+                do
+                {
+                    //request message in Format(1)
+                    Coloration(ConsoleColor.White, "\n\nEnter A ");
+                    Coloration(ConsoleColor.Cyan, "message ");
+                    Coloration(ConsoleColor.White, "In The Following Format: ");
+                    Coloration(ConsoleColor.DarkYellow, "ID:Vaccination Center:Vaccination Date:Vaccine Serial Number\n\n");
+                    Coloration(ConsoleColor.DarkGray, "Keep In Mind That The Following Must Be Adheared by:\n\n");
+                    Coloration(ConsoleColor.DarkYellow, "(1) "); ;
+                    Coloration(ConsoleColor.DarkGray, "The ID Must Be A Valid SOUTH AFRICAN ID Or SOUTH AFRICAN PASSPORT Number\n");
+                    Coloration(ConsoleColor.DarkYellow, "(2) ");
+                    Coloration(ConsoleColor.DarkGray, "Your Vaccination Date Must Be A Valid Date Value In Any Normal Date Format (ie. DD/MM/YYY)\n");
+                    Coloration(ConsoleColor.DarkYellow, "(3) ");
+                    Coloration(ConsoleColor.DarkGray, "All Pieces Of Data Must Be Entered\n");
+                    Coloration(ConsoleColor.DarkYellow, "(4) ");
+                    Coloration(ConsoleColor.DarkGray, "The Data Must Be Entered In The Order Given In The Format Above\n");
+                    Coloration(ConsoleColor.DarkYellow, "(5) ");
+                    Coloration(ConsoleColor.DarkGray, "Colons (:) Must Be Used To Separate The Data Items With No SPACES Or Other Characters Included In The Message\n\n");
+                    Coloration(ConsoleColor.DarkYellow, ">>");
 
-                //validate vaccination date loop:
-                input = ValidateVaccinationDateLoop();
-                //add vaccination date to message
-                message += "|" + input;
+                    //fetch input message input form userS
+                    input = ReadLine();
 
-                //validate vaccination number loop:
-                input = ValidateVaccinationNumberLoop();
-                //add vaccination number to message
-                message += "|" + input;
+                    int valid = ValidateMessage(input);
 
-                //add message to queue
-                await queueManager.AddMessageToQueue(message);
-                //success message
-                Coloration(ConsoleColor.DarkGreen, "Message added to the queue successfully!");
+                    if (valid == 0)
+                    {
+                        //add message to queue
+                        //await queueManager.AddMessageToQueue(message);
+                        //success message
+                        Coloration(ConsoleColor.DarkGreen, "Message added to the queue successfully!");
+
+                        //exit loop
+                        flag = false;
+                    }
+
+                } while (flag);
+                ////validate id number loop:
+                //input = ValidateIDNumberLoop();
+                ////add id to message
+                //message += input;
+
+                ////validate vaccination center loop:
+                //input = ValidateVaccinationCenterLoop();
+                ////add vaccination center to message
+                //message += ":" + input;
+
+                ////validate vaccination date loop:
+                //input = ValidateVaccinationDateLoop();
+                ////add vaccination date to message
+                //message += ":" + input;
+
+                ////validate vaccination number loop:
+                //input = ValidateVaccinationNumberLoop();
+                ////add vaccination number to message
+                //message += ":" + input;
+
+                
             }
             //vaccination barcode picked
             else if (input == "2")
             {
-                //validate vaccination barcode loop:
-                input = ValidateVaccinationBarcodeLoop();
-                //add vaccination barcode to message
-                message += input;
+                ////validate vaccination barcode loop:
+                //input = ValidateVaccinationBarcodeLoop();
+                ////add vaccination barcode to message
+                //message += input;
 
-                //validate vaccination date loop:
-                input = ValidateVaccinationDateLoop();
-                //add vaccination date to message
-                message += "|" + input;
+                ////validate vaccination date loop:
+                //input = ValidateVaccinationDateLoop();
+                ////add vaccination date to message
+                //message += ":" + input;
 
-                //validate vaccination center loop:
-                input = ValidateVaccinationCenterLoop();
-                //add vaccination center to message
-                message += "|" + input;
+                ////validate vaccination center loop:
+                //input = ValidateVaccinationCenterLoop();
+                ////add vaccination center to message
+                //message += ":" + input;
 
-                //validate id number loop:
-                input = ValidateIDNumberLoop();
-                //add id to message
-                message += "|" + input;
+                ////validate id number loop:
+                //input = ValidateIDNumberLoop();
+                ////add id to message
+                //message += ":" + input;
 
                 //add message to queue
                 await queueManager.AddMessageToQueue(message);
@@ -171,198 +207,144 @@ namespace cldv6212_part_2_console_app
             }//end else
         }//end IdentifyIDNumber method
 
-        //------------------------------------------------------------------------------------------------------------------------------ValidateIDNumberLoop
+        //check if message is valid:
+        // 0 : valid message
+        // 1 : invalid message
+        public static int ValidateMessage(string message)
+        { 
+            //break string into data parts
+            string[] parts = message.Split(':');
 
-        private static string ValidateIDNumberLoop()
-        {
-            //declare variables:
-            bool flag;
-            string input = "";
-
-            do
+            //check if a message has been entered and if it is in the correct format
+            if ((message.Equals(null)) || (parts.Length != 4))
             {
-                flag = true;//reassign flag
+                //generate error message
+                ErrorMessage("PLEASE ENTER A VALID MESSAGE!");
+                //invalid message >> error out
+                return 1;
+            }
 
-                //request message
-                Coloration(ConsoleColor.White, "\n\nEnter A Valid ");
-                Coloration(ConsoleColor.Cyan, "SOUTH AFRICAN IDENTIFICATION ");
-                Coloration(ConsoleColor.White, "or ");
-                Coloration(ConsoleColor.Cyan, "SOUTH AFRICAN PASSPORT ");
-                Coloration(ConsoleColor.White, "Number:");
-                Coloration(ConsoleColor.DarkYellow, "\n>> ");
-
-                //fetch user input
-                input = ReadLine();
-
-                if (input == "")
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID INPUT!");
-                }
-                //check if exit call is made
-                else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                {
-                    //close out console application
-                    Environment.Exit(0);
-                }
-                //validate input as either a ID or Passport number
-                else if (IdentifyIDNumber(input) == 3)
-                {
-                    //error message if input is null
-                    ErrorMessage("THE ENTERED VALUE IS NOT A VALID SOUTH AFRICAN ID OR PASSPORT NUMBER!");
-                }
-                //end loop
-                else
-                {
-                    flag = false;
-                }
-            } while (flag);
-
-            return input;
-        }//end ValidateIDNumberLoop method
-
-        //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationCenterLoop
-
-        private static string ValidateVaccinationCenterLoop()
-        {
-            //declare variables:
-            bool flag;
-            string input = "";
-
-            do
+            //Validation of message parts:
+            //validate ID
+            if (ValidateIDNumber(parts[0]) !=  "0")
             {
-                flag = true;//reassign flag
-
-                //request message
-                Coloration(ConsoleColor.White, "\n\nEnter A ");
-                Coloration(ConsoleColor.Cyan, "VACCINATION CENTER");
-                Coloration(ConsoleColor.White, ":");
-                Coloration(ConsoleColor.DarkYellow, "\n>> ");
-
-                //fetch user input
-                input = ReadLine();
-
-                //check if input is null
-                if (input == "")
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID INPUT!");
-                }
-                //check if exit call is made
-                else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                {
-                    //close out console application
-                    Environment.Exit(0);
-                }
-                //end loop
-                else
-                {
-                    flag = false;
-                }
-            } while (flag);
-
-            return input;
-        }//end ValidateVaccinationCenterLoop method
-
-        //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationDateLoop
-
-        private static string ValidateVaccinationDateLoop()
-        {
-            //declare variables:
-            bool flag;
-            string input = "";
-
-            do
+                //generate error message
+                ErrorMessage(ValidateIDNumber(parts[0]));
+                //invalid id >> error out
+                return 1;
+            }
+            //validate vaccination center
+            else if (ValidateVaccinationCenter(parts[1]) != "0")
             {
-                flag = true;//reassign flag
-
-                //temp variable to store date
-                DateTime dateValue;
-
-                //request message
-                Coloration(ConsoleColor.White, "\n\nEnter A ");
-                Coloration(ConsoleColor.Cyan, "VACCINATION DATE ");
-                Coloration(ConsoleColor.DarkGray, "(MM/DD/YYYY)");
-                Coloration(ConsoleColor.White, ":");
-                Coloration(ConsoleColor.DarkYellow, "\n>> ");
-
-                //fetch user input
-                input = ReadLine();
-
-                //check if input is null
-                if (input == "")
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID INPUT!");
-                }
-                //check if exit call is made
-                else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                {
-                    //close out console application
-                    Environment.Exit(0);
-                }
-                else if (!DateTime.TryParse(input, out dateValue))
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID DATE!");
-                }
-                //end loop
-                else
-                {
-                    flag = false;
-                }
-            } while (flag);
-
-            return input;
-        }//end ValidateVaccinationCenterLoop method
-
-        //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationNumberLoop
-
-        private static string ValidateVaccinationNumberLoop()
-        {
-            //declare variables:
-            bool flag;
-            string input = "";
-
-            do
+                //generate error message
+                ErrorMessage(ValidateVaccinationCenter(parts[1]));
+                //invalid center >> error out
+                return 1;
+            }
+            //validate vaccination date
+            else if (ValidateVaccinationDate(parts[2]) != "0")
             {
-                flag = true;//reassign flag
+                //generate error message
+                ErrorMessage(ValidateVaccinationDate(parts[2]));
+                //invalid date >> error out
+                return 1;
+            }
+            //validate vaccination number
+            else if (ValidateVaccineSerialNumber(parts[3]) != "0")
+            {
+                //generate error message
+                ErrorMessage(ValidateVaccineSerialNumber(parts[3]));
+                //invalid serial number >> error out
+                return 1;
+            }
 
-                //request message
-                Coloration(ConsoleColor.White, "\n\nEnter A ");
-                Coloration(ConsoleColor.Cyan, "VACCINATION NUMBER ");
-                Coloration(ConsoleColor.DarkGray, ":");
-                Coloration(ConsoleColor.DarkYellow, "\n>> ");
+            //valid message
+            return 0;
+        }//end ValidateMessage method
 
-                //fetch user input
-                input = ReadLine();
+        //------------------------------------------------------------------------------------------------------------------------------ValidateIDNumber
 
-                //check if input is null
-                if (input == "")
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID INPUT!");
-                }
-                //check if exit call is made
-                else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                {
-                    //close out console application
-                    Environment.Exit(0);
-                }
-                else if (input.Length != 10)
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID VACCINATION NUMBER!");
-                }
-                //end loop
-                else
-                {
-                    flag = false;
-                }
-            } while (flag);
+        private static string ValidateIDNumber(string id)
+        {
 
-            return input;
-        }//end ValidateVaccinationCenterLoop method
+            //check if id is null and validate input as either a ID or Passport number
+            if (id == "")
+            {
+                //error out
+                return "PLEASE ENTER A VALID INPUT FOR ID!";
+            }
+            else if (IdentifyIDNumber(id) == 3)
+            {
+                //error out 
+                return "THE ENTERED IDENTIFCATION NUMBER IS NOT A VALID SOUTH AFRICAN ID OR PASSPORT NUMBER!";
+            }    
+            //end loop
+
+            //valid id
+            return "0";
+            
+        }//end ValidateIDNumber method
+
+        //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationCenter
+
+        private static string ValidateVaccinationCenter(string center)
+        {
+            //check if input is null
+            if (center == "")
+            {
+                //error message if input is null
+                return "PLEASE ENTER A VALID INPUT FOR VACCINATION CENTER!";
+            }
+
+            //valid center
+            return "0";
+        }//end ValidateVaccinationCenter method
+
+        //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationDate
+
+        private static string ValidateVaccinationDate(string date)
+        {
+            DateOnly tempDate;
+
+            //check if input is null
+            if (date == "")
+            {
+                //error message if input is null
+                return "PLEASE ENTER A VALID INPUT!";
+            }
+            else if (!DateOnly.TryParse(date, out tempDate))
+            {
+                //error message if input is null
+                return "PLEASE ENTER A VALID DATE!";
+            }
+
+            //valid date
+            return "0";
+        }//end ValidateVaccinationDate method
+
+        //------------------------------------------------------------------------------------------------------------------------------ValidateVaccineSerialNumber
+
+        private static string ValidateVaccineSerialNumber(string serialNumber)
+        {
+            //method to check that the serial number only contains digits and no characters
+            Boolean IsAllDigits(string s) => s.All(Char.IsDigit);
+
+            //check if input is null
+            if (serialNumber == "")
+            {
+                //error message if input is null
+                return "PLEASE ENTER A INPUT!";
+            }
+            //check if serial number is 10 digits and contains only digits
+            else if ((serialNumber.Length != 10) || (IsAllDigits(serialNumber) != true))
+            {
+                //error message if input is null
+                return "PLEASE ENTER A VALID VACCINE NUMBER!";
+            }
+
+            //valid serial number
+            return "0";
+        }//end ValidateVaccineSerialNumber method
 
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationBarcodeLoop
 
