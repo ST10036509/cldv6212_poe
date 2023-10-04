@@ -17,147 +17,174 @@ namespace cldv6212_part_2_console_app
             //create queue manager
             var queueManager = new QueueManager(connectionString, queueName);
 
-
             //declare variables:
-            string input = "";
-            string message = "";
+            string input;
             bool flag;
 
-            //main program loop:
-            do
+            //main loop
+            while (true)
             {
-                flag = true;//reassign flag
-
-                //request message
-                Coloration(ConsoleColor.White, "What Would You Like To Use To Proceed:\n\n");
-                Coloration(ConsoleColor.DarkYellow, "(1) ");
-                Coloration(ConsoleColor.Cyan, "Identification Number");
-                Coloration(ConsoleColor.DarkGray, " (either a valid SOUTH AFRICAN ID or SOUTH AFRICAN Passport Number)\n");
-                Coloration(ConsoleColor.DarkYellow, "(2) ");
-                Coloration(ConsoleColor.Cyan, "Vaccine Barcode");
-                Coloration(ConsoleColor.DarkGray, "\n\n\n(Enter The Number Corresponding With Your Choice OR Type 'Exit' To Close The Application)");
-                Coloration(ConsoleColor.DarkYellow, "\n>> ");
-
-                //fetch user input
-                input = ReadLine();
-
-                //check if input is null
-                if (input == "")
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID INPUT!");
-                }
-                //check if exit call is made
-                else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                {
-                    //close out console application
-                    Environment.Exit(0);
-                }
-                //input out of option range
-                else if ((input != "1") && (input != "2"))
-                {
-                    //error message if input is out of range
-                    ErrorMessage("PLEASE PICK A VALID OPTION FROM THE ONES ABOVE!");
-                }
-                //end loop
-                else
-                {
-                    flag = false;
-                }
-            } while (flag);
-
-            //id number picked
-            if (input == "1")
-            {
-                flag = true;
-
+                //selection loop:
                 do
-                {
-                    //request message in Format(1)
-                    Coloration(ConsoleColor.White, "\n\nEnter A ");
-                    Coloration(ConsoleColor.Cyan, "message ");
-                    Coloration(ConsoleColor.White, "In The Following Format: ");
-                    Coloration(ConsoleColor.DarkYellow, "ID:Vaccination Center:Vaccination Date:Vaccine Serial Number\n\n");
-                    Coloration(ConsoleColor.DarkGray, "Keep In Mind That The Following Must Be Adheared by:\n\n");
-                    Coloration(ConsoleColor.DarkYellow, "(1) "); ;
-                    Coloration(ConsoleColor.DarkGray, "The ID Must Be A Valid SOUTH AFRICAN ID Or SOUTH AFRICAN PASSPORT Number\n");
-                    Coloration(ConsoleColor.DarkYellow, "(2) ");
-                    Coloration(ConsoleColor.DarkGray, "Your Vaccination Date Must Be A Valid Date Value In Any Normal Date Format (ie. DD/MM/YYY)\n");
-                    Coloration(ConsoleColor.DarkYellow, "(3) ");
-                    Coloration(ConsoleColor.DarkGray, "All Pieces Of Data Must Be Entered\n");
-                    Coloration(ConsoleColor.DarkYellow, "(4) ");
-                    Coloration(ConsoleColor.DarkGray, "The Data Must Be Entered In The Order Given In The Format Above\n");
-                    Coloration(ConsoleColor.DarkYellow, "(5) ");
-                    Coloration(ConsoleColor.DarkGray, "Colons (:) Must Be Used To Separate The Data Items With No SPACES Or Other Characters Included In The Message\n\n");
-                    Coloration(ConsoleColor.DarkYellow, ">>");
+                { 
+                    flag = true;//reassign flag
 
-                    //fetch input message input form userS
+                    //request message
+                    Coloration(ConsoleColor.White, "What Would You Like To Use To Proceed:\n\n");
+                    Coloration(ConsoleColor.DarkYellow, "(1) ");
+                    Coloration(ConsoleColor.Cyan, "Identification Number");
+                    Coloration(ConsoleColor.DarkGray, " (either a valid SOUTH AFRICAN ID or SOUTH AFRICAN Passport Number)\n");
+                    Coloration(ConsoleColor.DarkYellow, "(2) ");
+                    Coloration(ConsoleColor.Cyan, "Vaccine Barcode");
+                    Coloration(ConsoleColor.DarkGray, "\n\n\n(Enter The Number Corresponding With Your Choice OR Type 'Exit' To Close The Application)");
+                    Coloration(ConsoleColor.DarkYellow, "\n>> ");
+
+                    //fetch user input
                     input = ReadLine();
 
-                    int valid = ValidateMessage(input);
-
-                    if (valid == 0)
+                    //check if input is null
+                    if (input == "")
                     {
-                        //add message to queue
-                        //await queueManager.AddMessageToQueue(message);
-                        //success message
-                        Coloration(ConsoleColor.DarkGreen, "Message added to the queue successfully!");
-
-                        //exit loop
+                        //error message if input is null
+                        ErrorMessage("PLEASE ENTER A VALID INPUT!");
+                    }
+                    //check if exit call is made
+                    else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //close out console application
+                        ExitApplication();
+                    }
+                    //input out of option range
+                    else if ((input != "1") && (input != "2"))
+                    {
+                        //error message if input is out of range
+                        ErrorMessage("PLEASE PICK A VALID OPTION FROM THE ONES ABOVE!");
+                    }
+                    //end loop
+                    else
+                    {
                         flag = false;
                     }
-
                 } while (flag);
-                ////validate id number loop:
-                //input = ValidateIDNumberLoop();
-                ////add id to message
-                //message += input;
 
-                ////validate vaccination center loop:
-                //input = ValidateVaccinationCenterLoop();
-                ////add vaccination center to message
-                //message += ":" + input;
+                //id number picked
+                if (input == "1")
+                {
+                    //clear the console
+                    Clear();
 
-                ////validate vaccination date loop:
-                //input = ValidateVaccinationDateLoop();
-                ////add vaccination date to message
-                //message += ":" + input;
+                    flag = true;//reassign flag
 
-                ////validate vaccination number loop:
-                //input = ValidateVaccinationNumberLoop();
-                ////add vaccination number to message
-                //message += ":" + input;
+                    //message loop
+                    do
+                    {
+                        //request message in Format(1)
+                        Coloration(ConsoleColor.White, "Enter A ");
+                        Coloration(ConsoleColor.Cyan, "message ");
+                        Coloration(ConsoleColor.White, "In The Following Format: ");
+                        Coloration(ConsoleColor.DarkYellow, "ID:VaccinationCenter:VaccinationDate:VaccineSerialNumber\n\n");
+                        Coloration(ConsoleColor.DarkGray, "Keep In Mind That The Following Must Be Adheared by:\n\n");
+                        Coloration(ConsoleColor.DarkYellow, "(1) "); ;
+                        Coloration(ConsoleColor.DarkGray, "The ID Must Be A Valid SOUTH AFRICAN ID Or SOUTH AFRICAN PASSPORT Number\n");
+                        Coloration(ConsoleColor.DarkYellow, "(2) ");
+                        Coloration(ConsoleColor.DarkGray, "Your Vaccination Date Must Be A Valid Date Value In Any Normal Date Format (ie. DD/MM/YYY)\n");
+                        Coloration(ConsoleColor.DarkYellow, "(3) ");
+                        Coloration(ConsoleColor.DarkGray, "All Pieces Of Data Must Be Entered\n");
+                        Coloration(ConsoleColor.DarkYellow, "(4) ");
+                        Coloration(ConsoleColor.DarkGray, "The Data Must Be Entered In The Order Given In The Format Above\n");
+                        Coloration(ConsoleColor.DarkYellow, "(5) ");
+                        Coloration(ConsoleColor.DarkGray, "Colons (:) Must Be Used To Separate The Data Items With No SPACES Or Other Characters Included In The Message\n\n");
+                        Coloration(ConsoleColor.DarkYellow, ">>");
 
-                
+                        //fetch input message input form user 
+                        input = ReadLine();
+
+                        //check if exit call is made
+                        if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
+                        {
+                            //close application
+                            ExitApplication();
+                        }
+
+                        //validate message
+                        int valid = ValidateMessageIDFormat(input);
+
+                        if (valid == 0)
+                        {
+                            //add message to queue
+                            await queueManager.AddMessageToQueue(input);
+
+                            //call sender animation
+                            MessageSenderAnimation();
+
+                            //output success message
+                            SuccessMessage();
+
+                            //exit loop
+                            flag = false;
+                        }
+                    } while (flag);
+                }
+                //vaccination barcode picked
+                else if (input == "2")
+                {
+                    //clear the console
+                    Clear();
+
+                    flag = true;//reassign flag
+
+                    //message loop
+                    do
+                    {
+                        //request message in Format(1)
+                        Coloration(ConsoleColor.White, "Enter A ");
+                        Coloration(ConsoleColor.Cyan, "message ");
+                        Coloration(ConsoleColor.White, "In The Following Format: ");
+                        Coloration(ConsoleColor.DarkYellow, "VaccineBarcode:VaccinationDate:VaccinationCenter:ID\n\n");
+                        Coloration(ConsoleColor.DarkGray, "Keep In Mind That The Following Must Be Adheared by:\n\n");
+                        Coloration(ConsoleColor.DarkYellow, "(1) "); ;
+                        Coloration(ConsoleColor.DarkGray, "The ID Must Be A Valid SOUTH AFRICAN ID Or SOUTH AFRICAN PASSPORT Number\n");
+                        Coloration(ConsoleColor.DarkYellow, "(2) ");
+                        Coloration(ConsoleColor.DarkGray, "Your Vaccination Date Must Be A Valid Date Value In Any Normal Date Format (ie. DD/MM/YYY)\n");
+                        Coloration(ConsoleColor.DarkYellow, "(3) ");
+                        Coloration(ConsoleColor.DarkGray, "All Pieces Of Data Must Be Entered\n");
+                        Coloration(ConsoleColor.DarkYellow, "(4) ");
+                        Coloration(ConsoleColor.DarkGray, "The Data Must Be Entered In The Order Given In The Format Above\n");
+                        Coloration(ConsoleColor.DarkYellow, "(5) ");
+                        Coloration(ConsoleColor.DarkGray, "Colons (:) Must Be Used To Separate The Data Items With No SPACES Or Other Characters Included In The Message\n\n");
+                        Coloration(ConsoleColor.DarkYellow, ">>");
+
+                        //fetch input message input form user 
+                        input = ReadLine();
+
+                        //check if exit call is made
+                        if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
+                        {
+                            //close application
+                            ExitApplication();
+                        }
+
+                        //validate message
+                        int valid = ValidateMessageBarcodeFormat(input);
+
+                        if (valid == 0)
+                        {
+                            //add message to queue
+                            await queueManager.AddMessageToQueue(input);
+
+                            //call sender animation
+                            MessageSenderAnimation();
+
+                            //output success message
+                            SuccessMessage();
+
+                            //exit loop
+                            flag = false;
+                        }
+                    } while (flag);
+                }
             }
-            //vaccination barcode picked
-            else if (input == "2")
-            {
-                ////validate vaccination barcode loop:
-                //input = ValidateVaccinationBarcodeLoop();
-                ////add vaccination barcode to message
-                //message += input;
-
-                ////validate vaccination date loop:
-                //input = ValidateVaccinationDateLoop();
-                ////add vaccination date to message
-                //message += ":" + input;
-
-                ////validate vaccination center loop:
-                //input = ValidateVaccinationCenterLoop();
-                ////add vaccination center to message
-                //message += ":" + input;
-
-                ////validate id number loop:
-                //input = ValidateIDNumberLoop();
-                ////add id to message
-                //message += ":" + input;
-
-                //add message to queue
-                await queueManager.AddMessageToQueue(message);
-                //success message
-                Coloration(ConsoleColor.DarkGreen, "\n\nMessage added to the queue successfully!\n\n");
-            }
+            
         }//end main method
 
         //------------------------------------------------------------------------------------------------------------------------------IdentifyIDNumber
@@ -207,10 +234,12 @@ namespace cldv6212_part_2_console_app
             }//end else
         }//end IdentifyIDNumber method
 
-        //check if message is valid:
+        //------------------------------------------------------------------------------------------------------------------------------ValidateMessageIDFormat
+
+        //check if message with format (1) is valid:
         // 0 : valid message
         // 1 : invalid message
-        public static int ValidateMessage(string message)
+        public static int ValidateMessageIDFormat(string message)
         { 
             //break string into data parts
             string[] parts = message.Split(':');
@@ -260,7 +289,64 @@ namespace cldv6212_part_2_console_app
 
             //valid message
             return 0;
-        }//end ValidateMessage method
+        }//end ValidateMessageIDFormat method
+
+        //------------------------------------------------------------------------------------------------------------------------------ValidateMessageBarcodeFormat
+
+        //check if message with format (2) is valid:
+        // 0 : valid message
+        // 1 : invalid message
+        public static int ValidateMessageBarcodeFormat(string message)
+        {
+            //break string into data parts
+            string[] parts = message.Split(':');
+
+            //check if a message has been entered and if it is in the correct format
+            if ((message.Equals(null)) || (parts.Length != 4))
+            {
+                //generate error message
+                ErrorMessage("PLEASE ENTER A VALID MESSAGE!");
+                //invalid message >> error out
+                return 1;
+            }
+
+            //Validation of message parts:
+            //validate barcode
+            if (ValidateVaccineBarcode(parts[0]) !=  "0")
+            {
+                //generate error message
+                ErrorMessage(ValidateVaccineBarcode(parts[0]));
+                //invalid barcode >> error out
+                return 1;
+            }
+            //validate vaccination date
+            else if (ValidateVaccinationDate(parts[1]) != "0")
+            {
+                //generate error message
+                ErrorMessage(ValidateVaccinationDate(parts[1]));
+                //invalid date >> error out
+                return 1;
+            }
+            //validate vaccination center
+            else if (ValidateVaccinationCenter(parts[2]) != "0")
+            {
+                //generate error message
+                ErrorMessage(ValidateVaccinationCenter(parts[2]));
+                //invalid center >> error out
+                return 1;
+            }
+            //validate id number
+            else if (ValidateIDNumber(parts[3]) != "0")
+            {
+                //generate error message
+                ErrorMessage(ValidateIDNumber(parts[3]));
+                //invalid id >> error out
+                return 1;
+            }
+
+            //valid message
+            return 0;
+        }//end ValidateMessageBarcodeFormat method
 
         //------------------------------------------------------------------------------------------------------------------------------ValidateIDNumber
 
@@ -271,7 +357,7 @@ namespace cldv6212_part_2_console_app
             if (id == "")
             {
                 //error out
-                return "PLEASE ENTER A VALID INPUT FOR ID!";
+                return "PLEASE ENTER A VALID INPUT FOR IDENTIFICATION NUMBER!";
             }
             else if (IdentifyIDNumber(id) == 3)
             {
@@ -292,7 +378,7 @@ namespace cldv6212_part_2_console_app
             //check if input is null
             if (center == "")
             {
-                //error message if input is null
+                //error out
                 return "PLEASE ENTER A VALID INPUT FOR VACCINATION CENTER!";
             }
 
@@ -309,13 +395,13 @@ namespace cldv6212_part_2_console_app
             //check if input is null
             if (date == "")
             {
-                //error message if input is null
-                return "PLEASE ENTER A VALID INPUT!";
+                //error out
+                return "PLEASE ENTER A VALID INPUT FOR VACCINATION DATE!";
             }
             else if (!DateOnly.TryParse(date, out tempDate))
             {
-                //error message if input is null
-                return "PLEASE ENTER A VALID DATE!";
+                //error out
+                return "THE ENTERED DATE IS NOT A VALID ENTRY!";
             }
 
             //valid date
@@ -329,70 +415,46 @@ namespace cldv6212_part_2_console_app
             //method to check that the serial number only contains digits and no characters
             Boolean IsAllDigits(string s) => s.All(Char.IsDigit);
 
-            //check if input is null
+            //error out
             if (serialNumber == "")
             {
-                //error message if input is null
-                return "PLEASE ENTER A INPUT!";
+                //error out
+                return "PLEASE ENTER A VALID INPUT FOR VACCINE SERIAL NUMBER";
             }
             //check if serial number is 10 digits and contains only digits
             else if ((serialNumber.Length != 10) || (IsAllDigits(serialNumber) != true))
             {
-                //error message if input is null
-                return "PLEASE ENTER A VALID VACCINE NUMBER!";
+                //error out
+                return "THE ENTERED SERIAL NUMBER IS NOT A VALID ENTRY!";
             }
 
             //valid serial number
             return "0";
         }//end ValidateVaccineSerialNumber method
 
-        //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationBarcodeLoop
+        //------------------------------------------------------------------------------------------------------------------------------ValidateVaccineBarcode
 
-        private static string ValidateVaccinationBarcodeLoop()
+        private static string ValidateVaccineBarcode(string barcode)
         {
-            //declare variables:
-            bool flag;
-            string input = "";
+            //method to check that the barcode number only contains digits and no characters
+            Boolean IsAllDigits(string s) => s.All(Char.IsDigit);
 
-            do
+            //check if input is null
+            if (barcode == "")
             {
-                flag = true;//reassign flag
+                //error out
+                return "PLEASE ENTER A VALID INPUT FOR VACINE BARCODE!";
+            }
+            //check if barcode number is 12 digits and contains only digits
+            else if ((barcode.Length != 12) || IsAllDigits(barcode) != true)
+            {
+                //error out
+                return "THE ENTERED VACCINE BARCODE IS NOT A VALID ENTRY!" ;
+            }
 
-                //request message
-                Coloration(ConsoleColor.White, "\n\nEnter A ");
-                Coloration(ConsoleColor.Cyan, "VACCINATION BARCODE ");
-                Coloration(ConsoleColor.DarkGray, ":");
-                Coloration(ConsoleColor.DarkYellow, "\n>> ");
-
-                //fetch user input
-                input = ReadLine();
-
-                //check if input is null
-                if (input == "")
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID INPUT!");
-                }
-                //check if exit call is made
-                else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
-                {
-                    //close out console application
-                    Environment.Exit(0);
-                }
-                else if (input.Length != 13)
-                {
-                    //error message if input is null
-                    ErrorMessage("PLEASE ENTER A VALID VACCINATION NUMBER!");
-                }
-                //end loop
-                else
-                {
-                    flag = false;
-                }
-            } while (flag);
-
-            return input;
-        }//end ValidateVaccinationCenterLoop method 
+            //valid barcode number
+            return "0";
+        }//end ValidateVaccineBarcode method 
 
         //------------------------------------------------------------------------------------------------------------------------------Coloration
 
@@ -411,6 +473,45 @@ namespace cldv6212_part_2_console_app
 
         }//end Coloration method
 
+        //------------------------------------------------------------------------------------------------------------------------------MessageSenderAnimation
+
+        protected static void MessageSenderAnimation()
+        {
+            //output colorised message
+            Coloration(ConsoleColor.DarkYellow, "Sending Message To Queue");
+
+            //output colorized animation
+            for (int i = 0; i < 3; i++)
+            {
+                //output colorized char
+                Coloration(ConsoleColor.DarkYellow, ".");
+                //wait
+                Thread.Sleep(500);
+
+            }//end for-loop
+
+            //wait
+            Thread.Sleep(500);
+        }//end MessageSenderAnimation method
+
+        //------------------------------------------------------------------------------------------------------------------------------SuccessMessage
+
+        protected static void SuccessMessage()
+        {
+            //clear console
+            Clear();
+
+            //success message
+            Coloration(ConsoleColor.DarkGreen, "Message added to the queue successfully!");
+            //output hint
+            Coloration(ConsoleColor.DarkGray, "\n\nPress any key to proceed...");
+            //wait dor user interaction
+            ReadKey();
+
+            //clear console
+            Clear();
+        }//end SuccessMessage method
+
         //------------------------------------------------------------------------------------------------------------------------------ErrorMessage
 
         private static void ErrorMessage(string message)
@@ -420,6 +521,35 @@ namespace cldv6212_part_2_console_app
             Coloration(ConsoleColor.White, message + "\n\n");
             Coloration(ConsoleColor.DarkGray, "============================================================\n\n\n");
         }//end ErrorMessage method
+
+        //------------------------------------------------------------------------------------------------------------------------------ExitApplication
+
+        //safely close application
+        protected static void ExitApplication()
+        {
+
+            //clear console
+            Clear();
+            //output colorized message
+            Coloration(ConsoleColor.Red, "Exiting Program");
+
+            //output colorized animation
+            for (int i = 0; i < 3; i++)
+            {
+
+                //output colorized char
+                Coloration(ConsoleColor.Red, ".");
+                //wait
+                Thread.Sleep(500);
+
+            }//end for-loop
+
+            //wait
+            Thread.Sleep(500);
+            //end program
+            Environment.Exit(0);
+
+        }//end ExitApplication method
     }
 }
 //__________________________________...oooOOO000_End_Of_File_000OOOooo...__________________________________
