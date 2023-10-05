@@ -16,10 +16,13 @@ namespace cldv6212_part_2_console_app
 
         public async Task AddMessageToQueue(string message)
         {
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(message);
+            string base64message = Convert.ToBase64String(data);
+
             //create the queue if it doesn't exist
             await queueClient.CreateAsync();
             //send the message to the queue
-            await queueClient.SendMessageAsync(message);
+            await queueClient.SendMessageAsync(base64message);
         }//end AddMessageToQueue method
     }
 }

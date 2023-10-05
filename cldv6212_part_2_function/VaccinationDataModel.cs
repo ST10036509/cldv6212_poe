@@ -13,7 +13,7 @@ namespace cldv6212_part_2_function
         //getter amd setters
         public string Id { get; set; }
         public string VaccinationCenter { get; set; }
-        public DateTime? VaccincationDate { get; set; }
+        public DateOnly? VaccincationDate { get; set; }
         public string VaccinationSerialNumber { get; set; }
         public string VaccinationBarcode { get; set; }
         //
@@ -31,29 +31,28 @@ namespace cldv6212_part_2_function
             var data = new VaccinationDataModel();
 
             //check format:
-            //if it is of Format (2)
-            if (parts[0].Length == 10)
+            //if it is of Format (1)
+            if (parts[0].Length != 10)
             {
                 //assign values to Data Model variables
                 data.Id = parts[0];
                 data.VaccinationCenter = parts[1];
 
                 //check if DateTime is valid (again)
-                if (DateTime.TryParse(parts[2], out DateTime date))
+                if (DateOnly.TryParse(parts[2], out DateOnly date))
                 {
                     data.VaccincationDate = date;
                 }
 
                 data.VaccinationSerialNumber = parts[3];
             }
-            //if it is Format (1)
+            //if it is Format (2)
             else
             {
-                data.Id = parts[0];
                 data.VaccinationBarcode = parts[0];
 
                 //check if DateTime is valid (again)
-                if (DateTime.TryParse(parts[1], out DateTime date))
+                if (DateOnly.TryParse(parts[1], out DateOnly date))
                 {
                     data.VaccincationDate = date;
                 }
