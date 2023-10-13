@@ -14,8 +14,8 @@ namespace cldv6212_part_2_function
         public string Id { get; set; }
         public string VaccinationCenter { get; set; }
         public DateOnly? VaccincationDate { get; set; }
-        public string VaccinationSerialNumber { get; set; }
-        public string VaccinationBarcode { get; set; }
+        public string VaccineSerialNumber { get; set; }
+        public string VaccineBarcode { get; set; }
         //
 
         //capture message and break it down into Data Model context based on format
@@ -32,7 +32,7 @@ namespace cldv6212_part_2_function
 
             //check format:
             //if it is of Format (1)
-            if (parts[0].Length != 10)
+            if (parts[0].Length != 12)
             {
                 //assign values to Data Model variables
                 data.Id = parts[0];
@@ -44,12 +44,12 @@ namespace cldv6212_part_2_function
                     data.VaccincationDate = date;
                 }
 
-                data.VaccinationSerialNumber = parts[3];
+                data.VaccineSerialNumber = parts[3];
             }
             //if it is Format (2)
             else
             {
-                data.VaccinationBarcode = parts[0];
+                data.VaccineBarcode = parts[0];
 
                 //check if DateTime is valid (again)
                 if (DateOnly.TryParse(parts[1], out DateOnly date))

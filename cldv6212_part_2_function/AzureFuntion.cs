@@ -16,9 +16,6 @@ namespace cldv6212_part_2_function
 
             var dbContext = new VaccinationDataContext();
             dbContext.VaccinationData.Add(data);
-
-
-
         }
     }
 }
