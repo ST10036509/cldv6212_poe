@@ -1,5 +1,4 @@
-﻿using Azure.Messaging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,6 @@ namespace cldv6212_part_2_function
 {
     public class VaccinationDataModel
     {
-
         //getter amd setters
         public string Id { get; set; }
         public string VaccinationCenter { get; set; }
@@ -61,8 +59,9 @@ namespace cldv6212_part_2_function
                 data.Id = parts[3];
             }
 
+            //return new data model
             return data;
-        }
+        }//end FromMessage method
     }
 }
 //__________________________________...oooOOO000_End_Of_File_000OOOooo...__________________________________
