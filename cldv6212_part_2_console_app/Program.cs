@@ -34,7 +34,7 @@ namespace cldv6212_part_2_console_app
                     //request message
                     Coloration(ConsoleColor.White, "Enter Your Message Below:\n\n");
                     Coloration(ConsoleColor.DarkGray, "The Message Must Be In One Of The Following Formats:\n\n");
-                    Coloration(ConsoleColor.DarkYellow, "(1) "); ;
+                    Coloration(ConsoleColor.DarkYellow, "(1) ");
                     Coloration(ConsoleColor.Cyan, "ID:VaccinationCenter:VaccinationDate:VaccineSerialNumber\n\n");
                     Coloration(ConsoleColor.DarkYellow, "(2) ");
                     Coloration(ConsoleColor.Cyan, "VaccineBarcode:VaccinationDate:VaccinationCenter:ID\n\n");
@@ -54,8 +54,10 @@ namespace cldv6212_part_2_console_app
                     //get the format used (if any) and check if values are valid -- if not error
                     else if ((formatUsed = ValidateMessage(input)) == 2)
                     {
+                        //clear the console
+                        Clear();
                         //error message if input is out of range
-                        ErrorMessage("PLEASE ENSURE THAT YOUR MESSAGE IS IN ONE OF THE ABOVE FORMATS\n" +
+                        ErrorMessage("PLEASE ENSURE THAT YOUR MESSAGE IS IN ONE OF THE BELOW FORMATS\n" +
                                      "AND THAT ALL DATA ENTERED IS CORRECT!");
                     }
                     //end loop
