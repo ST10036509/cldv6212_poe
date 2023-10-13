@@ -38,7 +38,7 @@ namespace cldv6212_part_2_function
                 data.Id = parts[0];
                 data.VaccinationCenter = parts[1];
 
-                //check if DateTime is valid (again)
+                //convert parts[2] string to dateonly and add to data model
                 if (DateOnly.TryParse(parts[2], out DateOnly date))
                 {
                     data.VaccincationDate = date;
@@ -51,7 +51,7 @@ namespace cldv6212_part_2_function
             {
                 data.VaccineBarcode = parts[0];
 
-                //check if DateTime is valid (again)
+                //convert parts[1] string to dateonly and add to data model
                 if (DateOnly.TryParse(parts[1], out DateOnly date))
                 {
                     data.VaccincationDate = date;

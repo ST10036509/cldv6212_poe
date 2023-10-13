@@ -21,7 +21,7 @@ namespace cldv6212_part_2_console_app
             //declare variables:
             string input;
             bool flag;
-            int formatUsed = -1;
+            int formatUsed = -1;//impossible value
 
             //main loop
             while (true)
@@ -32,14 +32,40 @@ namespace cldv6212_part_2_console_app
                     flag = true;//reassign flag
 
                     //request message
-                    Coloration(ConsoleColor.White, "Enter Your Message Below:\n\n");
+                    Coloration(ConsoleColor.Yellow, "Enter Your Message Below:\n\n");
+                    Coloration(ConsoleColor.DarkMagenta, "------------------------------------------------------------------------------------------------------------\n\n");
                     Coloration(ConsoleColor.DarkGray, "The Message Must Be In One Of The Following Formats:\n\n");
-                    Coloration(ConsoleColor.DarkYellow, "(1) ");
-                    Coloration(ConsoleColor.Cyan, "ID:VaccinationCenter:VaccinationDate:VaccineSerialNumber\n\n");
-                    Coloration(ConsoleColor.DarkYellow, "(2) ");
-                    Coloration(ConsoleColor.Cyan, "VaccineBarcode:VaccinationDate:VaccinationCenter:ID\n\n");
-                    Coloration(ConsoleColor.DarkGray, "Keep In Mind That A Colon (:) Must Be Used To Seperate Each Value!");
-                    Coloration(ConsoleColor.DarkGray, "\n(Type 'Exit' To Close The Application)");
+                    Coloration(ConsoleColor.White, "(1) ");
+                    Coloration(ConsoleColor.DarkCyan, "ID:VaccinationCenter:VaccinationDate:VaccineSerialNumber\n\n");
+                    Coloration(ConsoleColor.White, "(2) ");
+                    Coloration(ConsoleColor.DarkCyan, "VaccineBarcode:VaccinationDate:VaccinationCenter:ID\n\n");
+
+                    Coloration(ConsoleColor.DarkMagenta, "------------------------------------------------------------------------------------------------------------\n\n");
+                    Coloration(ConsoleColor.DarkGray, "Keep The Following In Mind:\n\n");
+                    Coloration(ConsoleColor.White, "(1) ");
+                    Coloration(ConsoleColor.DarkGray, "The ");
+                    Coloration(ConsoleColor.DarkYellow, "VaccineBarcode ");
+                    Coloration(ConsoleColor.DarkGray, "And ");
+                    Coloration(ConsoleColor.DarkYellow, "VaccineSerialNumber ");
+                    Coloration(ConsoleColor.DarkGray, "Must Be 12 And 10 Digits Respectively \n    And Comprise Of ONLY Numeric Characters\n");
+                    Coloration(ConsoleColor.White, "(2) ");
+                    Coloration(ConsoleColor.DarkGray, "The ");
+                    Coloration(ConsoleColor.DarkYellow, "IdentificationNumber (ID) ");
+                    Coloration(ConsoleColor.DarkGray, "Must Be A Valid SOUTH AFRICAN ID or Passport Number\n");
+                    Coloration(ConsoleColor.White, "(3) ");
+                    Coloration(ConsoleColor.DarkGray, "The ");
+                    Coloration(ConsoleColor.DarkYellow, "VaccinationCenter ");
+                    Coloration(ConsoleColor.DarkGray, "Cannot Be Left EMPTY\n");
+                    Coloration(ConsoleColor.White, "(4) ");
+                    Coloration(ConsoleColor.DarkGray, "The ");
+                    Coloration(ConsoleColor.DarkYellow, "VaccinationDate ");
+                    Coloration(ConsoleColor.DarkGray, "Must Be In The Format: DD/MM/YYYY\n");
+                    Coloration(ConsoleColor.White, "(5) ");
+                    Coloration(ConsoleColor.DarkGray, "A Colon (:) Must Be Used To Seperate Each Value In The Message As Shown In The Formats Listed Above\n");
+
+                    Coloration(ConsoleColor.DarkGray, "\n(Type ");
+                    Coloration(ConsoleColor.Red, "'Exit' ");
+                    Coloration(ConsoleColor.DarkGray, "To Close The Application)");
                     Coloration(ConsoleColor.DarkYellow, "\n\n>> ");
 
                     //fetch user input
@@ -102,13 +128,13 @@ namespace cldv6212_part_2_console_app
                     return 2;
                 }
                 //in format (1)
-                if ((new[] { 1, 2 }.Contains(IdentifyIDNumber(parts[0])))  && //if it starts with either a valid id or passport number
-                     (ValidateVaccineSerialNumber(parts[3]) == "0")) //AND ends in a valid VaccineSerialNumber
+                if ((new[] { 0, 1 }.Contains(IdentifyIDNumber(parts[0])))  && //if it starts with either a valid id or passport number
+                     (ValidateVaccineSerialNumber(parts[3]) == 0)) //AND ends in a valid VaccineSerialNumber
                 {
                     //check if a valid VaccinationCenter has been entered
                     //AND a valid VaccinationDate has been entered
-                    if ((ValidateVaccinationCenter(parts[1]) != "0") || 
-                        (ValidateVaccinationDate(parts[2]) != "0"))
+                    if ((ValidateVaccinationCenter(parts[1]) != 0) || 
+                        (ValidateVaccinationDate(parts[2]) != 0))
                     {
                         //invalid center or date >> error out
                         return 2;
@@ -117,13 +143,13 @@ namespace cldv6212_part_2_console_app
                     return 0;
                 }
                 //in foramt (2)
-                else if ((ValidateVaccineBarcode(parts[0]) == "0")  &&//if it starts with a valid VaccineBarcode
-                     (new[] { 1, 2 }.Contains(IdentifyIDNumber(parts[3]))))//AND ends in either a valid id or passport number
+                else if ((ValidateVaccineBarcode(parts[0]) == 0)  &&//if it starts with a valid VaccineBarcode
+                     (new[] { 0, 1 }.Contains(IdentifyIDNumber(parts[3]))))//AND ends in either a valid id or passport number
                 {
                     //check if a valid VaccinationCenter has been entered
                     //AND a valid VaccinationDate has been entered
-                    if ((ValidateVaccinationCenter(parts[2]) != "0") ||
-                        (ValidateVaccinationDate(parts[1]) != "0"))
+                    if ((ValidateVaccinationCenter(parts[2]) != 0) ||
+                        (ValidateVaccinationDate(parts[1]) != 0))
                     {
                         //invalid center or date >> error out
                         return 2;
@@ -148,9 +174,9 @@ namespace cldv6212_part_2_console_app
         //------------------------------------------------------------------------------------------------------------------------------IdentifyIDNumber
 
         //method to identify if the query value is a passport number or an id number:
-        // 1 : passport number
-        // 2 : id number,
-        // 3 : unknown value
+        // 0 : passport number
+        // 1 : id number,
+        // 2 : unknown value
         private static int IdentifyIDNumber(string queryValue)
         {
             //method to check if string contains only digits:
@@ -164,7 +190,7 @@ namespace cldv6212_part_2_console_app
             {
                 //NOT a passport number
                 //check if id number: 13 digits
-                return !(queryValue.Length == 13) ? 3 : 2;
+                return !(queryValue.Length == 13) ? 2 : 1;
             }//end if
             else
             {
@@ -173,7 +199,7 @@ namespace cldv6212_part_2_console_app
                 if (!(queryValue.Length == 9))
                 {
                     //unknown value passed
-                    return 3;
+                    return 2;
                 }//end if
                 else
                 {
@@ -181,12 +207,12 @@ namespace cldv6212_part_2_console_app
                     if (!(count == 8))
                     {
                         //unknown value passed
-                        return 3;
+                        return 2;
                     }//end if
                     else
                     {
                         //check if passport number: begins with a letter
-                        return !Char.IsLetter(queryValue[0]) ? 3 : 1;
+                        return !Char.IsLetter(queryValue[0]) ? 2 : 0;
                     }//end else
                 }//end else
             }//end else
@@ -194,22 +220,22 @@ namespace cldv6212_part_2_console_app
 
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationCenter
 
-        private static string ValidateVaccinationCenter(string center)
+        private static int ValidateVaccinationCenter(string center)
         {
             //check if input is null
             if (center == "")
             {
                 //error out
-                return "PLEASE ENTER A VALID INPUT FOR VACCINATION CENTER!";
+                return 1;
             }
 
             //valid center
-            return "0";
+            return 0;
         }//end ValidateVaccinationCenter method
 
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationDate
 
-        private static string ValidateVaccinationDate(string date)
+        private static int ValidateVaccinationDate(string date)
         {
             //temptorary date holder for validation
             DateOnly tempDate;
@@ -218,21 +244,21 @@ namespace cldv6212_part_2_console_app
             if (date == "")
             {
                 //error out
-                return "PLEASE ENTER A VALID INPUT FOR VACCINATION DATE!";
+                return 1;
             }
             else if (!DateOnly.TryParse(date, out tempDate))
             {
                 //error out
-                return "THE ENTERED DATE IS NOT A VALID ENTRY!";
+                return 1;
             }
 
             //valid date
-            return "0";
+            return 0;
         }//end ValidateVaccinationDate method
 
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccineSerialNumber
 
-        private static string ValidateVaccineSerialNumber(string serialNumber)
+        private static int ValidateVaccineSerialNumber(string serialNumber)
         {
             //method to check that the serial number only contains digits and no characters
             Boolean IsAllDigits(string s) => s.All(Char.IsDigit);
@@ -241,22 +267,22 @@ namespace cldv6212_part_2_console_app
             if (serialNumber == "")
             {
                 //error out
-                return "PLEASE ENTER A VALID INPUT FOR VACCINE SERIAL NUMBER";
+                return 1;
             }
             //check if serial number is 10 digits and contains only digits
             else if ((serialNumber.Length != 10) || (IsAllDigits(serialNumber) != true))
             {
                 //error out
-                return "THE ENTERED SERIAL NUMBER IS NOT A VALID ENTRY!";
+                return 1;
             }
 
             //valid serial number
-            return "0";
+            return 0;
         }//end ValidateVaccineSerialNumber method
 
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccineBarcode
 
-        private static string ValidateVaccineBarcode(string barcode)
+        private static int ValidateVaccineBarcode(string barcode)
         {
             //method to check that the barcode number only contains digits and no characters
             Boolean IsAllDigits(string s) => s.All(Char.IsDigit);
@@ -265,17 +291,17 @@ namespace cldv6212_part_2_console_app
             if (barcode == "")
             {
                 //error out
-                return "PLEASE ENTER A VALID INPUT FOR VACINE BARCODE!";
+                return 1;
             }
             //check if barcode number is 12 digits and contains only digits
             else if ((barcode.Length != 12) || IsAllDigits(barcode) != true)
             {
                 //error out
-                return "THE ENTERED VACCINE BARCODE IS NOT A VALID ENTRY!" ;
+                return 1;
             }
 
             //valid barcode number
-            return "0";
+            return 0;
         }//end ValidateVaccineBarcode method 
 
         //------------------------------------------------------------------------------------------------------------------------------Coloration

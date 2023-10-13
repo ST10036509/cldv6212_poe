@@ -8,17 +8,18 @@ using Microsoft.Extensions.Logging;
 
 namespace cldv6212_part_2_function
 {
-    public class Function1
+    public class AzureFunction
     {
-        [FunctionName("Function1")]
+        [FunctionName("VaccDataToSQLFunc")]
         public void Run([QueueTrigger("cldv6212-poe-part-2", Connection = "connectionString")]string myQueueItem, ILogger log)
         {
+            //log a successful trigger request and process
             log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
 
-            //create a data model of message
+            //create a data model of captured message
             var data = VaccinationDataModel.FromMessage(myQueueItem);
 
-            //add message data to sql database
+            //add message data to sql database and log result (error/success message)
             log.LogInformation(AddToDatabase(data));
         }//end function call
 
