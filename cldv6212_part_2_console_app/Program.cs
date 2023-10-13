@@ -67,46 +67,18 @@ namespace cldv6212_part_2_console_app
                     }
                 } while (flag);
 
-                //format (1) used
-                if (formatUsed == 0)
-                {
-                    //clear the console
-                    Clear();
-
-                    //add message to queue
-                    await queueManager.AddMessageToQueue(input);
-
-                    //call sender animation
-                    MessageSenderAnimation();
-
-                    //output success message
-                    SuccessMessage();
-                }
-                //format (2) used
-                else if (formatUsed == 1)
-                {
-                    //clear the console
-                    Clear();
-
-                    //add message to queue
-                    await queueManager.AddMessageToQueue(input);
-
-                    //call sender animation
-                    MessageSenderAnimation();
-
-                    //output success message
-                    SuccessMessage();
-
-                    //exit loop
-                    flag = false;
-                }
+                //clear the console
+                Clear();
+                //add message to queue
+                await queueManager.AddMessageToQueue(input);
+                //call sender animation
+                MessageSenderAnimation();
+                //output success message
+                SuccessMessage();
             }
-            
         }//end main method
 
-
         //------------------------------------------------------------------------------------------------------------------------------ValidateMessageInCorrectFormats
-
 
         //check if the message is in valid format and return a valaue corresponding to the chosen format
         // 0 : format (1)
@@ -173,9 +145,7 @@ namespace cldv6212_part_2_console_app
             }
         }//end ValidateMessageInCorrectFormats method
 
-
         //------------------------------------------------------------------------------------------------------------------------------IdentifyIDNumber
-
 
         //method to identify if the query value is a passport number or an id number:
         // 1 : passport number
@@ -222,7 +192,6 @@ namespace cldv6212_part_2_console_app
             }//end else
         }//end IdentifyIDNumber method
 
-
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationCenter
 
         private static string ValidateVaccinationCenter(string center)
@@ -238,9 +207,7 @@ namespace cldv6212_part_2_console_app
             return "0";
         }//end ValidateVaccinationCenter method
 
-
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccinationDate
-
 
         private static string ValidateVaccinationDate(string date)
         {
@@ -263,9 +230,7 @@ namespace cldv6212_part_2_console_app
             return "0";
         }//end ValidateVaccinationDate method
 
-
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccineSerialNumber
-
 
         private static string ValidateVaccineSerialNumber(string serialNumber)
         {
@@ -289,9 +254,7 @@ namespace cldv6212_part_2_console_app
             return "0";
         }//end ValidateVaccineSerialNumber method
 
-
         //------------------------------------------------------------------------------------------------------------------------------ValidateVaccineBarcode
-
 
         private static string ValidateVaccineBarcode(string barcode)
         {
@@ -315,9 +278,7 @@ namespace cldv6212_part_2_console_app
             return "0";
         }//end ValidateVaccineBarcode method 
 
-
         //------------------------------------------------------------------------------------------------------------------------------Coloration
-
 
         //method to output colorized text
         private static void Coloration(ConsoleColor color, string message)
@@ -334,9 +295,7 @@ namespace cldv6212_part_2_console_app
 
         }//end Coloration method
 
-
         //------------------------------------------------------------------------------------------------------------------------------MessageSenderAnimation
-
 
         protected static void MessageSenderAnimation()
         {
@@ -357,9 +316,7 @@ namespace cldv6212_part_2_console_app
             Thread.Sleep(500);
         }//end MessageSenderAnimation method
 
-
         //------------------------------------------------------------------------------------------------------------------------------SuccessMessage
-
 
         protected static void SuccessMessage()
         {
@@ -377,9 +334,7 @@ namespace cldv6212_part_2_console_app
             Clear();
         }//end SuccessMessage method
 
-
         //------------------------------------------------------------------------------------------------------------------------------ErrorMessage
-
 
         private static void ErrorMessage(string message)
         {
@@ -389,9 +344,7 @@ namespace cldv6212_part_2_console_app
             Coloration(ConsoleColor.DarkGray, "============================================================\n\n\n");
         }//end ErrorMessage method
 
-
         //------------------------------------------------------------------------------------------------------------------------------ExitApplication
-
 
         //safely close application
         protected static void ExitApplication()
