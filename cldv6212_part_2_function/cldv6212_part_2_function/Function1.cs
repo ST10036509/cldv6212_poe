@@ -20,8 +20,11 @@ namespace cldv6212_part_2_function
 
             //add message data to sql database
             log.LogInformation(AddToDatabase(data));
-        }
+        }//end function call
 
+        //------------------------------------------------------------------------------------------------------------------------------AddToDatabase
+
+        //add the data captured to the specified Azure SQL Database
         public static string AddToDatabase(VaccinationDataModel data)
         {
             //connection string
@@ -52,13 +55,10 @@ namespace cldv6212_part_2_function
 
                     //create command
                     command = new SqlCommand(sql, con);
-
                     //create adapter
                     adapter.InsertCommand = command;
-
                     //execute command
                     adapter.InsertCommand.ExecuteNonQuery();
-
                     //dispose of command
                     command.Dispose();
 

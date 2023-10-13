@@ -16,6 +16,8 @@ namespace cldv6212_part_2_function
         public string VaccineBarcode { get; set; }
         //
 
+        //------------------------------------------------------------------------------------------------------------------------------FromMessage
+
         //capture message and break it down into Data Model context based on format
         //Formats:
         //(1) Id:VaccinationCenter:VaccinationDate:VaccineSerialNumber
