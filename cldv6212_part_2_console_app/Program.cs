@@ -13,7 +13,7 @@ namespace cldv6212_part_2_console_app
         {
             //declare queue variables:
             string connectionString = "DefaultEndpointsProtocol=https;AccountName=azjhbrsgvcwccnst10099da;AccountKey=EhL5fvzUJhvvNoKZirNP3ZWOgsuEtopqvtoo51XWKStt6IZfxog9dFg38cVEu4BEWEQRxXYTiSRm+AStyt0u4Q==;EndpointSuffix=core.windows.net";
-            string queueName = "cldv6212-poe-part-2";
+            string queueName = "prog6212-ice-task-5";
 
             //create queue manager
             var queueManager = new QueueManager(connectionString, queueName);

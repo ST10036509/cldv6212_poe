@@ -16,8 +16,10 @@ namespace cldv6212_part_2_console_app
 
         public async Task AddMessageToQueue(string message)
         {
-            // byte[] data = System.Text.Encoding.UTF8.GetBytes(message);
+            //byte[] data = System.Text.Encoding.UTF8.GetBytes(message);
             //string base64message = Convert.ToBase64String(data);
+
+            Console.WriteLine(Base64Encode(message));
 
             //check if queue exsists and if not create one
             if (!await queueClient.ExistsAsync())
@@ -26,8 +28,14 @@ namespace cldv6212_part_2_console_app
             }
             
             //send the message to the queue
-            await queueClient.SendMessageAsync(message);
+            await queueClient.SendMessageAsync(Base64Encode(message));
         }//end AddMessageToQueue method
+
+        private static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
     }
 }
 //__________________________________...oooOOO000_End_Of_File_000OOOooo...__________________________________
